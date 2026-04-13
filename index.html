@@ -41,7 +41,6 @@
                     animation: {
                         'fade-in-up': 'fadeInUp 1s ease-out forwards',
                         'breathe': 'breathe 15s ease-in-out infinite alternate',
-                        'fadeIn': 'fadeIn 0.5s ease-out forwards',
                     },
                     keyframes: {
                         fadeInUp: {
@@ -51,10 +50,6 @@
                         breathe: {
                             '0%': { backgroundPosition: '0% 50%' },
                             '100%': { backgroundPosition: '100% 50%' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
                         }
                     }
                 }
@@ -76,7 +71,7 @@
         .reveal-delay-2 { transition-delay: 0.3s; }
 
         .glass-nav {
-            background: rgba(241, 235, 231, 0.98); /* #f1ebe7 */
+            background: rgba(241, 235, 231, 0.98); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -103,13 +98,6 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
-
-        /* Services Inline Extra Text */
-        .extra-content {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
         
         .hero-img {
             object-position: center top;
@@ -118,7 +106,7 @@
 
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-earth-bgwarm text-earth-text font-sans antialiased overflow-x-hidden selection:bg-earth-warm selection:text-white">
+<body class="bg-earth-bgwarm text-earth-text font-sans antialiased overflow-x-hidden selection:bg-earth-warm selection:text-white" id="home">
 
     <header class="fixed w-full z-50 transition-all duration-300 shadow-nav" id="header-wrapper">
         
@@ -134,7 +122,7 @@
         <nav class="glass-nav px-6 py-3 relative z-40" id="navbar">
             <div class="max-w-7xl mx-auto flex justify-between items-center relative z-20">
                 
-                <a href="#" class="flex-shrink-0 group">
+                <a href="#home" class="flex-shrink-0 group">
                     <img src="https://assets.cdn.filesafe.space/61icdoMiJ2pHklO6mmKW/media/69aa7066b2a2741b18b2b5e3.jpg" alt="Χαρά Ντούλια Logo" class="h-16 md:h-18 w-auto object-contain transition-transform duration-500 group-hover:scale-105 rounded-md mix-blend-multiply">
                 </a>
                 
@@ -161,8 +149,13 @@
             
             <div id="search-panel" class="absolute top-full left-0 w-full bg-earth-nav border-t border-earth-base/20 shadow-md transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300 z-10 flex items-center justify-center py-4 px-6">
                 <div class="max-w-2xl w-full flex items-center gap-3">
-                    <input type="text" placeholder="Αναζήτηση..." class="w-full bg-white border border-earth-base/40 rounded-full px-6 py-2.5 text-sm focus:outline-none focus:border-earth-warm text-earth-text shadow-inner">
-                    <button onclick="toggleSearchBar()" class="bg-earth-darkbrown text-white p-2.5 rounded-full hover:bg-earth-warm transition-colors flex-shrink-0">
+                    <div class="relative w-full">
+                        <input type="text" id="search-input" placeholder="Αναζήτηση (π.χ. Υπηρεσίες, Επικοινωνία)..." class="w-full bg-white border border-earth-base/40 rounded-full pl-6 pr-12 py-2.5 text-sm focus:outline-none focus:border-earth-warm text-earth-text shadow-inner" onkeypress="if(event.key === 'Enter') handleSearch()">
+                        <button onclick="handleSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-earth-olive hover:text-earth-warm transition-colors focus:outline-none">
+                            <i data-lucide="search" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <button onclick="toggleSearchBar()" class="bg-earth-darkbrown text-white p-2.5 rounded-full hover:bg-earth-warm transition-colors flex-shrink-0 focus:outline-none">
                         <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -186,7 +179,9 @@
         </div>
         
         <div class="absolute inset-0 z-10 moving-gradient animate-breathe mix-blend-overlay"></div>
-        <div class="absolute inset-0 z-10 bg-black/40"></div> <div class="relative z-20 w-full max-w-4xl mx-auto px-6 text-center pt-20">
+        <div class="absolute inset-0 z-10 bg-black/40"></div>
+
+        <div class="relative z-20 w-full max-w-4xl mx-auto px-6 text-center pt-20">
             <div class="animate-fade-in-up">
                 
                 <span class="inline-block px-4 py-1 rounded-full border border-white/40 text-white/90 text-xs md:text-sm font-semibold tracking-[0.2em] mb-8 backdrop-blur-sm no-accents">
@@ -232,7 +227,7 @@
                 </div>
                 
                 <div class="text-center mt-10">
-                    <button onclick="openModal()" class="inline-flex items-center gap-2 px-8 py-3 bg-earth-darkbrown text-white hover:bg-earth-warm rounded-full font-bold transition-all no-accents shadow-md text-sm">
+                    <button onclick="openCvModal()" class="inline-flex items-center gap-2 px-8 py-3 bg-earth-darkbrown text-white hover:bg-earth-warm rounded-full font-bold transition-all no-accents shadow-md text-sm focus:outline-none">
                         <i data-lucide="book-open" class="w-4 h-4"></i>
                         ΑΝΑΛΥΤΙΚΟ ΒΙΟΓΡΑΦΙΚΟ
                     </button>
@@ -253,49 +248,70 @@
                 
                 <div class="service-card bg-white p-8 rounded-3xl shadow-soft border border-earth-base/20 flex flex-col reveal hover:-translate-y-1 transition-transform duration-300">
                     <div class="flex flex-col items-center gap-4 mb-6 text-center">
-                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-4.jpg" alt="Ατομική Συμβουλευτική" class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-earth-base/20">
-                        <h3 class="text-2xl font-bold text-earth-darkbrown">Ατομική Συμβουλευτική</h3>
+                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-4.jpg" alt="Ατομική Συμβουλευτική" class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-earth-base/20 service-img">
+                        <h3 class="text-2xl font-bold text-earth-darkbrown service-title">Ατομική Συμβουλευτική</h3>
                     </div>
                     
-                    <div class="text-earth-text text-sm md:text-base leading-relaxed text-justify relative">
-                        Η συμβουλευτική αποτελεί μια διαδικασία προσωπικής διερεύνησης και ουσιαστικής κατανόησης του εαυτού, που αναπτύσσεται μέσα σε ένα πλαίσιο εμπιστοσύνης, ασφάλειας και αποδοχής. Απευθύνεται σε ανθρώπους που βιώνουν δυσκολίες στην καθημερινότητά τους<span class="dots font-bold text-earth-warm">...</span><span class="extra-content inline">, εσωτερικές συγκρούσεις ή περιόδους αλλαγής που φέρνουν ερωτήματα και αναζητήσεις. Μέσα από αυτή τη διαδικασία, δίνεται η δυνατότητα να εκφραστούν σκέψεις και συναισθήματα που συχνά παραμένουν αδιευκρίνιστα ή δύσκολα να ειπωθούν. Σταδιακά, το άτομο μπορεί να κατανοήσει βαθύτερα τον τρόπο με τον οποίο σχετίζεται με τον εαυτό του και τους άλλους, να αναγνωρίσει τι το επηρεάζει και να σταθεί με μεγαλύτερη επίγνωση απέναντι σε όσα βιώνει. Σε περιόδους αβεβαιότητας ή μετάβασης, όπου η ισορροπία μοιάζει να δοκιμάζεται, η συμβουλευτική μπορεί να λειτουργήσει ως ένα σταθερό σημείο αναφοράς — ένας χώρος όπου δεν χρειάζεται να υπάρχουν άμεσες απαντήσεις, αλλά όπου μπορεί να αναπτυχθεί μια πιο καθαρή ματιά και μια αίσθηση εσωτερικής σταθερότητας. Ο στόχος της δεν περιορίζεται μόνο στη διαχείριση ενός συγκεκριμένου ζητήματος, αλλά επεκτείνεται στην ενίσχυση της σχέσης με τον εαυτό, στη βελτίωση των σχέσεων με τους άλλους και στη διαμόρφωση τρόπων ζωής που ανταποκρίνονται πιο ουσιαστικά στις προσωπικές ανάγκες και αξίες.</span>
+                    <div class="text-earth-text text-sm md:text-base leading-relaxed text-center mb-6">
+                        Η συμβουλευτική αποτελεί μια διαδικασία προσωπικής διερεύνησης και ουσιαστικής κατανόησης του εαυτού, που αναπτύσσεται μέσα σε ένα πλαίσιο εμπιστοσύνης, ασφάλειας και αποδοχής. Απευθύνεται σε ανθρώπους που βιώνουν δυσκολίες στην καθημερινότητά τους, εσωτερικές συγκρούσεις ή περιόδους αλλαγής που φέρνουν ερωτήματα και αναζητήσεις...
                     </div>
                     
-                    <button onclick="toggleService(this)" class="mt-auto text-earth-warm font-bold flex justify-center items-center gap-2 hover:text-earth-darkbrown transition-colors no-accents text-xs pt-6 w-full border-t border-earth-base/10">
-                        <span class="btn-text">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</span>
-                        <i data-lucide="chevron-down" class="service-icon w-4 h-4 transition-transform duration-300"></i>
+                    <div class="hidden service-full-text">
+                        <p class="mb-4">Η συμβουλευτική αποτελεί μια διαδικασία προσωπικής διερεύνησης και ουσιαστικής κατανόησης του εαυτού, που αναπτύσσεται μέσα σε ένα πλαίσιο εμπιστοσύνης, ασφάλειας και αποδοχής. Απευθύνεται σε ανθρώπους που βιώνουν δυσκολίες στην καθημερινότητά τους, εσωτερικές συγκρούσεις ή περιόδους αλλαγής που φέρνουν ερωτήματα και αναζητήσεις.</p>
+                        <p class="mb-4">Μέσα από αυτή τη διαδικασία, δίνεται η δυνατότητα να εκφραστούν σκέψεις και συναισθήματα που συχνά παραμένουν αδιευκρίνιστα ή δύσκολα να ειπωθούν. Σταδιακά, το άτομο μπορεί να κατανοήσει βαθύτερα τον τρόπο με τον οποίο σχετίζεται με τον εαυτό του και τους άλλους, να αναγνωρίσει τι το επηρεάζει και να σταθεί με μεγαλύτερη επίγνωση απέναντι σε όσα βιώνει.</p>
+                        <p class="mb-4">Σε περιόδους αβεβαιότητας ή μετάβασης, όπου η ισορροπία μοιάζει να δοκιμάζεται, η συμβουλευτική μπορεί να λειτουργήσει ως ένα σταθερό σημείο αναφοράς — ένας χώρος όπου δεν χρειάζεται να υπάρχουν άμεσες απαντήσεις, αλλά όπου μπορεί να αναπτυχθεί μια πιο καθαρή ματιά και μια αίσθηση εσωτερικής σταθερότητας.</p>
+                        <p>Ο στόχος της δεν περιορίζεται μόνο στη διαχείριση ενός συγκεκριμένου ζητήματος, αλλά επεκτείνεται στην ενίσχυση της σχέσης με τον εαυτό, στη βελτίωση των σχέσεων με τους άλλους και στη διαμόρφωση τρόπων ζωής που ανταποκρίνονται πιο ουσιαστικά στις προσωπικές ανάγκες και αξίες.</p>
+                    </div>
+                    
+                    <button onclick="openServiceModal(this)" class="mt-auto text-earth-warm font-bold flex justify-center items-center gap-2 hover:text-earth-darkbrown transition-colors no-accents text-sm pt-6 w-full border-t border-earth-base/10 focus:outline-none">
+                        <span>ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
 
                 <div class="service-card bg-white p-8 rounded-3xl shadow-soft border border-earth-base/20 flex flex-col reveal reveal-delay-1 hover:-translate-y-1 transition-transform duration-300">
                     <div class="flex flex-col items-center gap-4 mb-6 text-center">
-                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-3.jpg" alt="Συμβουλευτική Ζεύγους" class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-earth-base/20">
-                        <h3 class="text-2xl font-bold text-earth-darkbrown">Συμβουλευτική Ζεύγους</h3>
+                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-3.jpg" alt="Συμβουλευτική Ζεύγους" class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-earth-base/20 service-img">
+                        <h3 class="text-2xl font-bold text-earth-darkbrown service-title">Συμβουλευτική Ζεύγους</h3>
                     </div>
 
-                    <div class="text-earth-text text-sm md:text-base leading-relaxed text-justify relative">
-                        Η συμβουλευτική ζεύγους απευθύνεται σε ανθρώπους που συνδέονται μέσα από σημαντικές δυαδικές σχέσεις, όπως η συντροφική ή η σχέση γονέα–παιδιού κ.α., όπου αναδύονται δυσκολίες στην επικοινωνία, επαναλαμβανόμενες εντάσεις ή μια αίσθηση απομάκρυνσης<span class="dots font-bold text-earth-warm">...</span><span class="extra-content inline">. Αποτελεί μια διαδικασία διερεύνησης και κατανόησης της σχέσης, που αναπτύσσεται μέσα σε ένα πλαίσιο ασφάλειας, εμπιστοσύνης και ουδετερότητας. Κατά τη διάρκεια των συναντήσεων, δίνεται η δυνατότητα να εκφραστούν ανάγκες, συναισθήματα και σκέψεις που συχνά μένουν ανείπωτα ή παρερμηνεύονται. Μέσα από αυτή τη διαδικασία, αρχίζουν να γίνονται πιο ορατοί οι τρόποι με τους οποίους κάθε πλευρά σχετίζεται και αντιδρά, καθώς και τα μοτίβα που επαναλαμβάνονται και επηρεάζουν τη δυναμική της σχέσης. Η συμβουλευτική ζεύγους δεν στοχεύει στην απόδοση ευθυνών, αλλά στη δημιουργία ενός χώρου όπου μπορεί να αναπτυχθεί μεγαλύτερη κατανόηση, να ενισχυθεί η επικοινωνία και να διαμορφωθούν πιο λειτουργικοί τρόποι σύνδεσης, ώστε οι άνθρωποι που συμμετέχουν να μπορούν να συνδέονται με μεγαλύτερη ειλικρίνεια, να αναγνωρίζουν τις ανάγκες τους και να παίρνουν αποφάσεις που ανταποκρίνονται ουσιαστικά σε αυτές με μεγαλύτερη επίγνωση και σεβασμό. Σε περιόδους κρίσης ή αλλαγής, μπορεί να λειτουργήσει ως ένα σημείο αναφοράς, όπου η σχέση έχει τη δυνατότητα να επαναπροσδιοριστεί με μεγαλύτερη σαφήνεια και επίγνωση. Σε κάποιες περιπτώσεις, αυτό που αναδύεται είναι η επαναπροσέγγιση και η εκ νέου σύνδεση. Σε άλλες, αναδύεται η ανάγκη για έναν πιο συνειδητό τρόπο απομάκρυνσης, για επανακαθορισμό ορίων ή για τη διαμόρφωση νέων τρόπων συνύπαρξης. Όποια κι αν είναι η πορεία, η διαδικασία δίνει τη δυνατότητα να ακουστεί η φωνή και των δύο και να διερευνηθεί ο τρόπος με τον οποίο κάθε πλευρά συμμετέχει στη διαμόρφωση της σχέσης.</span>
+                    <div class="text-earth-text text-sm md:text-base leading-relaxed text-center mb-6">
+                        Η συμβουλευτική ζεύγους απευθύνεται σε ανθρώπους που συνδέονται μέσα από σημαντικές δυαδικές σχέσεις, όπως η συντροφική ή η σχέση γονέα–παιδιού κ.α., όπου αναδύονται δυσκολίες στην επικοινωνία, επαναλαμβανόμενες εντάσεις ή μια αίσθηση απομάκρυνσης...
                     </div>
                     
-                    <button onclick="toggleService(this)" class="mt-auto text-earth-warm font-bold flex justify-center items-center gap-2 hover:text-earth-darkbrown transition-colors no-accents text-xs pt-6 w-full border-t border-earth-base/10">
-                        <span class="btn-text">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</span>
-                        <i data-lucide="chevron-down" class="service-icon w-4 h-4 transition-transform duration-300"></i>
+                    <div class="hidden service-full-text">
+                        <p class="mb-4">Η συμβουλευτική ζεύγους απευθύνεται σε ανθρώπους που συνδέονται μέσα από σημαντικές δυαδικές σχέσεις, όπως η συντροφική ή η σχέση γονέα–παιδιού κ.α., όπου αναδύονται δυσκολίες στην επικοινωνία, επαναλαμβανόμενες εντάσεις ή μια αίσθηση απομάκρυνσης. Αποτελεί μια διαδικασία διερεύνησης και κατανόησης της σχέσης, που αναπτύσσεται μέσα σε ένα πλαίσιο ασφάλειας, εμπιστοσύνης και ουδετερότητας.</p>
+                        <p class="mb-4">Κατά τη διάρκεια των συναντήσεων, δίνεται η δυνατότητα να εκφραστούν ανάγκες, συναισθήματα και σκέψεις που συχνά μένουν ανείπωτα ή παρερμηνεύονται. Μέσα από αυτή τη διαδικασία, αρχίζουν να γίνονται πιο ορατοί οι τρόποι με τους οποίους κάθε πλευρά σχετίζεται και αντιδρά, καθώς και τα μοτίβα που επαναλαμβάνονται και επηρεάζουν τη δυναμική της σχέσης.</p>
+                        <p class="mb-4">Η συμβουλευτική ζεύγους δεν στοχεύει στην απόδοση ευθυνών, αλλά στη δημιουργία ενός χώρου όπου μπορεί να αναπτυχθεί μεγαλύτερη κατανόηση, να ενισχυθεί η επικοινωνία και να διαμορφωθούν πιο λειτουργικοί τρόποι σύνδεσης, ώστε οι άνθρωποι που συμμετέχουν να μπορούν να συνδέονται με μεγαλύτερη ειλικρίνεια, να αναγνωρίζουν τις ανάγκες τους και να παίρνουν αποφάσεις που ανταποκρίνονται ουσιαστικά σε αυτές με μεγαλύτερη επίγνωση και σεβασμό.</p>
+                        <p>Σε περιόδους κρίσης ή αλλαγής, μπορεί να λειτουργήσει ως ένα σημείο αναφοράς, όπου η σχέση έχει τη δυνατότητα να επαναπροσδιοριστεί με μεγαλύτερη σαφήνεια και επίγνωση. Σε κάποιες περιπτώσεις, αυτό που αναδύεται είναι η επαναπροσέγγιση και η εκ νέου σύνδεση. Σε άλλες, αναδύεται η ανάγκη για έναν πιο συνειδητό τρόπο απομάκρυνσης, για επανακαθορισμό ορίων ή για τη διαμόρφωση νέων τρόπων συνύπαρξης. Όποια κι αν είναι η πορεία, η διαδικασία δίνει τη δυνατότητα να ακουστεί η φωνή και των δύο και να διερευνηθεί ο τρόπος με τον οποίο κάθε πλευρά συμμετέχει στη διαμόρφωση της σχέσης.</p>
+                    </div>
+                    
+                    <button onclick="openServiceModal(this)" class="mt-auto text-earth-warm font-bold flex justify-center items-center gap-2 hover:text-earth-darkbrown transition-colors no-accents text-sm pt-6 w-full border-t border-earth-base/10 focus:outline-none">
+                        <span>ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
 
                 <div class="service-card bg-white p-8 rounded-3xl shadow-soft border border-earth-base/20 flex flex-col reveal reveal-delay-2 hover:-translate-y-1 transition-transform duration-300 lg:col-span-1 md:col-span-2 lg:mx-0 md:mx-auto md:w-1/2 lg:w-full">
                     <div class="flex flex-col items-center gap-4 mb-6 text-center">
-                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-2.jpg" alt="Online Συνεδρίες" class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-earth-base/20">
-                        <h3 class="text-2xl font-bold text-earth-darkbrown">Online Συνεδρίες</h3>
+                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-2.jpg" alt="Online Συνεδρίες" class="w-20 h-20 rounded-full object-cover shadow-sm border-2 border-earth-base/20 service-img">
+                        <h3 class="text-2xl font-bold text-earth-darkbrown service-title">Online Συνεδρίες</h3>
                     </div>
 
-                    <div class="text-earth-text text-sm md:text-base leading-relaxed text-justify relative">
-                        Οι online συνεδρίες αποτελούν έναν σύγχρονο τρόπο πραγματοποίησης της συμβουλευτικής, διατηρώντας το ίδιο πλαίσιο και την ίδια ποιότητα με τις δια ζώσης συναντήσεις. Πραγματοποιούνται μέσω διαδικτυακών και τηλεφωνικών μέσων και προσφέρουν τη δυνατότητα συνέχειας και σταθερότητας<span class="dots font-bold text-earth-warm">...</span><span class="extra-content inline"> στη διαδικασία, ανεξάρτητα από την τοποθεσία. Απευθύνονται σε ανθρώπους που βρίσκονται σε διαφορετική πόλη ή χώρα, σε όσους διαθέτουν περιορισμένο χρόνο, αλλά και σε εκείνους που επιλέγουν τη διαδικτυακή ή τηλεφωνική μορφή ως έναν πιο ευέλικτο τρόπο υποστήριξης. Παρότι η συνάντηση δεν πραγματοποιείται στον ίδιο φυσικό χώρο, διαμορφώνεται ένα σταθερό και ασφαλές πλαίσιο μέσα στο οποίο μπορεί να αναπτυχθεί ουσιαστική επικοινωνία και σχέση εμπιστοσύνης. Η διαδικασία προσαρμόζεται στις ανάγκες του κάθε ανθρώπου, με σεβασμό στον ρυθμό και τις ιδιαιτερότητές του. Στόχος είναι η διατήρηση μιας σταθερής και ουσιαστικής πορείας, που επιτρέπει τη συνέχιση της διερεύνησης, της αυτογνωσίας και της προσωπικής εξέλιξης, χωρίς περιορισμούς χώρου.</span>
+                    <div class="text-earth-text text-sm md:text-base leading-relaxed text-center mb-6">
+                        Οι online συνεδρίες αποτελούν έναν σύγχρονο τρόπο πραγματοποίησης της συμβουλευτικής, διατηρώντας το ίδιο πλαίσιο και την ίδια ποιότητα με τις δια ζώσης συναντήσεις. Πραγματοποιούνται μέσω διαδικτυακών και τηλεφωνικών μέσων...
                     </div>
                     
-                    <button onclick="toggleService(this)" class="mt-auto text-earth-warm font-bold flex justify-center items-center gap-2 hover:text-earth-darkbrown transition-colors no-accents text-xs pt-6 w-full border-t border-earth-base/10">
-                        <span class="btn-text">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</span>
-                        <i data-lucide="chevron-down" class="service-icon w-4 h-4 transition-transform duration-300"></i>
+                    <div class="hidden service-full-text">
+                        <p class="mb-4">Οι online συνεδρίες αποτελούν έναν σύγχρονο τρόπο πραγματοποίησης της συμβουλευτικής, διατηρώντας το ίδιο πλαίσιο και την ίδια ποιότητα με τις δια ζώσης συναντήσεις. Πραγματοποιούνται μέσω διαδικτυακών και τηλεφωνικών μέσων και προσφέρουν τη δυνατότητα συνέχειας και σταθερότητας στη διαδικασία, ανεξάρτητα από την τοποθεσία.</p>
+                        <p class="mb-4">Απευθύνονται σε ανθρώπους που βρίσκονται σε διαφορετική πόλη ή χώρα, σε όσους διαθέτουν περιορισμένο χρόνο, αλλά και σε εκείνους που επιλέγουν τη διαδικτυακή ή τηλεφωνική μορφή ως έναν πιο ευέλικτο τρόπο υποστήριξης.</p>
+                        <p class="mb-4">Παρότι η συνάντηση δεν πραγματοποιείται στον ίδιο φυσικό χώρο, διαμορφώνεται ένα σταθερό και ασφαλές πλαίσιο μέσα στο οποίο μπορεί να αναπτυχθεί ουσιαστική επικοινωνία και σχέση εμπιστοσύνης.</p>
+                        <p>Η διαδικασία προσαρμόζεται στις ανάγκες του κάθε ανθρώπου, με σεβασμό στον ρυθμό και τις ιδιαιτερότητές του. Στόχος είναι η διατήρηση μιας σταθερής και ουσιαστικής πορείας, που επιτρέπει τη συνέχιση της διερεύνησης, της αυτογνωσίας και της προσωπικής εξέλιξης, χωρίς περιορισμούς χώρου.</p>
+                    </div>
+                    
+                    <button onclick="openServiceModal(this)" class="mt-auto text-earth-warm font-bold flex justify-center items-center gap-2 hover:text-earth-darkbrown transition-colors no-accents text-sm pt-6 w-full border-t border-earth-base/10 focus:outline-none">
+                        <span>ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </div>
 
@@ -412,6 +428,8 @@
     </section>
 
     <footer id="contact" class="bg-earth-darkbrown pt-20 pb-10 text-white relative">
+        <div class="absolute top-0 right-0 w-80 h-80 bg-earth-warm/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="grid md:grid-cols-3 gap-12 mb-16 items-start">
                 
@@ -492,7 +510,7 @@
             
             <div class="px-8 py-6 border-b border-earth-base/20 flex justify-between items-center sticky top-0 bg-earth-bgwarm/95 backdrop-blur-sm z-10">
                 <h3 class="text-2xl font-serif text-earth-darkbrown font-bold">Αναλυτικό Βιογραφικό</h3>
-                <button onclick="closeModal()" class="text-earth-olive hover:text-earth-darkbrown transition-colors bg-white rounded-full p-2 shadow-sm border border-earth-base/20">
+                <button onclick="closeCvModal()" class="text-earth-olive hover:text-earth-darkbrown transition-colors bg-white rounded-full p-2 shadow-sm border border-earth-base/20 focus:outline-none">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -519,7 +537,31 @@
             </div>
             
             <div class="px-8 py-5 border-t border-earth-base/20 bg-white flex justify-end">
-                 <button onclick="closeModal()" class="px-8 py-2 bg-earth-darkbrown text-white rounded-full font-bold hover:bg-earth-warm transition-colors no-accents text-sm shadow-sm">
+                 <button onclick="closeCvModal()" class="px-8 py-2 bg-earth-darkbrown text-white rounded-full font-bold hover:bg-earth-warm transition-colors no-accents text-sm shadow-sm focus:outline-none">
+                    ΚΛΕΙΣΙΜΟ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="service-modal" class="fixed inset-0 z-[100] hidden items-center justify-center modal-overlay p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-earth-bgwarm w-full max-w-3xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col relative transform scale-95 transition-transform duration-300" id="service-modal-content">
+            
+            <div class="px-6 md:px-8 py-5 border-b border-earth-base/20 flex justify-between items-center sticky top-0 bg-earth-bgwarm/95 backdrop-blur-sm z-10">
+                <div class="flex items-center gap-4">
+                    <img id="service-modal-img" src="" alt="" class="w-10 h-10 rounded-full object-cover shadow-sm border border-earth-base/20">
+                    <h3 id="service-modal-title" class="text-xl md:text-2xl font-serif text-earth-darkbrown font-bold leading-none">Τίτλος Υπηρεσίας</h3>
+                </div>
+                <button onclick="closeServiceModal()" class="text-earth-olive hover:text-earth-darkbrown transition-colors bg-white rounded-full p-2 shadow-sm border border-earth-base/20 focus:outline-none shrink-0">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="service-modal-body" class="p-6 md:p-8 overflow-y-auto custom-scrollbar text-earth-text text-sm md:text-base leading-loose text-justify">
+            </div>
+            
+            <div class="px-6 md:px-8 py-5 border-t border-earth-base/20 bg-white flex justify-end">
+                 <button onclick="closeServiceModal()" class="px-8 py-2 bg-earth-darkbrown text-white rounded-full font-bold hover:bg-earth-warm transition-colors no-accents text-sm shadow-sm focus:outline-none">
                     ΚΛΕΙΣΙΜΟ
                 </button>
             </div>
@@ -546,11 +588,8 @@
             });
         });
 
-        // Sticky Navbar & Search Panel
+        // Sticky Header Effect
         const headerWrapper = document.getElementById('header-wrapper');
-        const searchPanel = document.getElementById('search-panel');
-        let isSearchOpen = false;
-
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 headerWrapper.classList.add('shadow-md');
@@ -559,25 +598,59 @@
             }
         });
 
+        // Smart Search Functionality
+        const searchPanel = document.getElementById('search-panel');
+        let isSearchOpen = false;
+
         function toggleSearchBar() {
             isSearchOpen = !isSearchOpen;
             if(isSearchOpen) {
                 searchPanel.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
                 searchPanel.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
-                searchPanel.querySelector('input').focus();
+                document.getElementById('search-input').focus();
             } else {
                 searchPanel.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
                 searchPanel.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
             }
         }
 
-        // Scroll Reveal
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+        function handleSearch() {
+            const input = document.getElementById('search-input').value;
+            // Normalize: remove accents and lowercase
+            const normalized = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+            
+            if (!normalized) return;
 
+            let targetId = null;
+
+            // Logic matching keywords
+            if (normalized.includes("επικοινωνια") || normalized.includes("epikoinonia") || normalized.includes("ραντεβου")) {
+                targetId = "contact";
+            } else if (normalized.includes("ερωτησεις") || normalized.includes("faq") || normalized.includes("συχνες") || normalized.includes("erotiseis")) {
+                targetId = "faq";
+            } else if (normalized.includes("αρχικη") || normalized.includes("arxiki") || normalized.includes("home")) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                toggleSearchBar();
+                document.getElementById('search-input').value = '';
+                return;
+            } else if (normalized.includes("ψυχολογος") || normalized.includes("ντουλια") || normalized.includes("χαρα") || normalized.includes("βιογραφικο") || normalized.includes("psychologos") || normalized.includes("ntoulia")) {
+                targetId = "about";
+            } else if (normalized.includes("υπηρεσιες") || normalized.includes("ypiresies") || normalized.includes("συνεδριες")) {
+                targetId = "services";
+            } else {
+                alert("Δεν βρέθηκε ακριβής ενότητα. Δοκιμάστε λέξεις όπως: Αρχική, Βιογραφικό, Ψυχολόγος, Υπηρεσίες, Ερωτήσεις, Επικοινωνία.");
+                return;
+            }
+
+            if (targetId) {
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                toggleSearchBar();
+                document.getElementById('search-input').value = '';
+            }
+        }
+
+        // Scroll Reveal
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -586,35 +659,8 @@
                 }
             });
         }, observerOptions);
-
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Services Inline Text Logic (Perfect flow without line breaks)
-        function toggleService(btn) {
-            const card = btn.closest('.service-card');
-            const dots = card.querySelector('.dots');
-            const extraContent = card.querySelector('.extra-content');
-            const btnText = btn.querySelector('.btn-text');
-            const icon = btn.querySelector('.service-icon');
-            
-            const isHidden = extraContent.style.display === 'none' || extraContent.style.display === '';
-
-            if (isHidden) {
-                dots.style.display = 'none';
-                extraContent.style.display = 'inline';
-                setTimeout(() => { extraContent.style.opacity = '1'; }, 10);
-                btnText.innerText = 'ΛΙΓΟΤΕΡΑ';
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                extraContent.style.opacity = '0';
-                setTimeout(() => {
-                    extraContent.style.display = 'none';
-                    dots.style.display = 'inline';
-                }, 400); // Wait for fade out
-                btnText.innerText = 'ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ';
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
 
         // FAQ Accordion Logic
         const faqBtns = document.querySelectorAll('.faq-btn');
@@ -636,38 +682,90 @@
         });
 
         // CV Modal Logic
-        const modal = document.getElementById('cv-modal');
-        const modalContent = document.getElementById('cv-modal-content');
+        const cvModal = document.getElementById('cv-modal');
+        const cvModalContent = document.getElementById('cv-modal-content');
 
-        function openModal() {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        function openCvModal() {
+            cvModal.classList.remove('hidden');
+            cvModal.classList.add('flex');
             setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
+                cvModal.classList.remove('opacity-0');
+                cvModalContent.classList.remove('scale-95');
+                cvModalContent.classList.add('scale-100');
             }, 10);
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            modal.classList.add('opacity-0');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
+        function closeCvModal() {
+            cvModal.classList.add('opacity-0');
+            cvModalContent.classList.remove('scale-100');
+            cvModalContent.classList.add('scale-95');
             setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
+                cvModal.classList.add('hidden');
+                cvModal.classList.remove('flex');
                 document.body.style.overflow = '';
             }, 300);
         }
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
+        cvModal.addEventListener('click', (e) => {
+            if (e.target === cvModal) closeCvModal();
         });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+
+        // Services Pop-up Modal Logic
+        const serviceModal = document.getElementById('service-modal');
+        const serviceModalContent = document.getElementById('service-modal-content');
+        const serviceModalTitle = document.getElementById('service-modal-title');
+        const serviceModalImg = document.getElementById('service-modal-img');
+        const serviceModalBody = document.getElementById('service-modal-body');
+
+        function openServiceModal(btn) {
+            const card = btn.closest('.service-card');
+            const title = card.querySelector('.service-title').innerText;
+            const imgSrc = card.querySelector('.service-img').src;
+            const fullTextHTML = card.querySelector('.service-full-text').innerHTML;
+            
+            // Populate Modal
+            serviceModalTitle.innerText = title;
+            serviceModalImg.src = imgSrc;
+            serviceModalBody.innerHTML = fullTextHTML;
+
+            // Show Modal
+            serviceModal.classList.remove('hidden');
+            serviceModal.classList.add('flex');
+            setTimeout(() => {
+                serviceModal.classList.remove('opacity-0');
+                serviceModalContent.classList.remove('scale-95');
+                serviceModalContent.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeServiceModal() {
+            serviceModal.classList.add('opacity-0');
+            serviceModalContent.classList.remove('scale-100');
+            serviceModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                serviceModal.classList.add('hidden');
+                serviceModal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Close on background click
+        serviceModal.addEventListener('click', (e) => {
+            if (e.target === serviceModal) closeServiceModal();
         });
+
+        // Global Escape Key to close any open modal or search bar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!cvModal.classList.contains('hidden')) closeCvModal();
+                if (!serviceModal.classList.contains('hidden')) closeServiceModal();
+                if (isSearchOpen) toggleSearchBar();
+            }
+        });
+
     </script>
 </body>
 </html>
