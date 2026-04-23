@@ -58,6 +58,18 @@
     </script>
 
     <style>
+        /* Strict Body & Box-Sizing Limits */
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+        }
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            max-width: 100%; 
+            overflow-x: hidden; 
+        }
+
         .no-accents { text-transform: uppercase; }
 
         ::-webkit-scrollbar { width: 8px; }
@@ -106,7 +118,7 @@
 
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-earth-bgwarm text-earth-text font-sans antialiased overflow-x-hidden selection:bg-earth-warm selection:text-white" id="home">
+<body class="bg-earth-bgwarm text-earth-text font-sans antialiased selection:bg-earth-warm selection:text-white" id="home">
 
     <header class="fixed w-full z-50 transition-all duration-300 shadow-nav" id="header-wrapper">
         
@@ -458,7 +470,7 @@
         </div>
     </section>
 
-    <footer id="contact" class="bg-earth-darkbrown pt-20 pb-10 text-white relative border-t border-white/10">
+    <footer id="contact" class="bg-earth-darkbrown pt-20 pb-10 text-white relative border-t border-white/10 overflow-hidden">
         <div class="absolute top-0 right-0 w-80 h-80 bg-earth-warm/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
