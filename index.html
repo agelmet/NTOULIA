@@ -98,6 +98,10 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
+        
+        .hero-img {
+            object-position: center top;
+        }
     </style>
 
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -223,7 +227,7 @@
         <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
             
             <div class="relative reveal flex justify-center lg:justify-start">
-                <div class="w-full max-w-[400px] lg:max-w-[450px] aspect-[4/5] bg-earth-sage p-2 rounded-t-[10rem] rounded-b-3xl shadow-2xl relative overflow-hidden">
+                <div class="w-full max-w-[400px] lg:max-w-[450px] aspect-[4/5] bg-earth-sage p-2 rounded-t-[10rem] rounded-b-3xl shadow-2xl relative">
                     <div class="w-full h-full bg-white rounded-t-[9.5rem] rounded-b-2xl overflow-hidden flex items-center justify-center">
                         <img src="https://lh3.googleusercontent.com/p/AF1QipNJaGcQQpNlamzfSwhikXt72hC-wfeYEX1VYmvu=s1360-w1360-h1020" alt="Χαρά Ντούλια - Σύμβουλος Ψυχικής Υγείας" class="w-full h-full object-contain grayscale-[15%] hover:grayscale-0 transition-all duration-700 p-2">
                     </div>
@@ -275,9 +279,7 @@
                 
                 <div class="service-card bg-white p-8 rounded-3xl shadow-soft border border-earth-base/20 flex flex-col reveal hover:-translate-y-1 transition-transform duration-300">
                     <div class="flex flex-col items-center gap-4 mb-6 text-center">
-                        <div class="w-20 h-20 rounded-full shadow-sm border-2 border-earth-base/20 bg-white flex items-center justify-center p-1">
-                            <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-4.jpg" alt="Ατομική Συμβουλευτική" class="w-full h-full object-contain service-img rounded-full">
-                        </div>
+                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-4.jpg" alt="Ατομική Συμβουλευτική" class="w-20 h-20 object-contain rounded-2xl service-img">
                         <h3 class="text-2xl font-bold text-earth-darkbrown service-title">Ατομική Συμβουλευτική</h3>
                     </div>
                     
@@ -300,9 +302,7 @@
 
                 <div class="service-card bg-white p-8 rounded-3xl shadow-soft border border-earth-base/20 flex flex-col reveal reveal-delay-1 hover:-translate-y-1 transition-transform duration-300">
                     <div class="flex flex-col items-center gap-4 mb-6 text-center">
-                        <div class="w-20 h-20 rounded-full shadow-sm border-2 border-earth-base/20 bg-white flex items-center justify-center p-1">
-                            <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-3.jpg" alt="Συμβουλευτική Ζεύγους" class="w-full h-full object-contain service-img rounded-full">
-                        </div>
+                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-3.jpg" alt="Συμβουλευτική Ζεύγους" class="w-20 h-20 object-contain rounded-2xl service-img">
                         <h3 class="text-2xl font-bold text-earth-darkbrown service-title">Συμβουλευτική Ζεύγους</h3>
                     </div>
 
@@ -325,9 +325,7 @@
 
                 <div class="service-card bg-white p-8 rounded-3xl shadow-soft border border-earth-base/20 flex flex-col reveal reveal-delay-2 hover:-translate-y-1 transition-transform duration-300 lg:col-span-1 md:col-span-2 lg:mx-0 md:mx-auto md:w-1/2 lg:w-full">
                     <div class="flex flex-col items-center gap-4 mb-6 text-center">
-                        <div class="w-20 h-20 rounded-full shadow-sm border-2 border-earth-base/20 bg-white flex items-center justify-center p-1">
-                            <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-2.jpg" alt="Online Συνεδρίες" class="w-full h-full object-contain service-img rounded-full">
-                        </div>
+                        <img src="https://raw.githubusercontent.com/agelmet/NTOULIA/refs/heads/main/ntoi-2.jpg" alt="Online Συνεδρίες" class="w-20 h-20 object-contain rounded-2xl service-img">
                         <h3 class="text-2xl font-bold text-earth-darkbrown service-title">Online Συνεδρίες</h3>
                     </div>
 
@@ -586,9 +584,7 @@
             
             <div class="px-6 md:px-8 py-5 border-b border-earth-base/20 flex justify-between items-center sticky top-0 bg-earth-bgwarm/95 backdrop-blur-sm z-10">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center border border-earth-base/20 p-1 shrink-0">
-                        <img id="service-modal-img" src="" alt="" class="w-full h-full object-contain rounded-full">
-                    </div>
+                    <img id="service-modal-img" src="" alt="" class="w-12 h-12 object-contain rounded-xl shrink-0">
                     <h3 id="service-modal-title" class="text-xl md:text-2xl font-serif text-earth-darkbrown font-bold leading-none">Τίτλος Υπηρεσίας</h3>
                 </div>
                 <button onclick="closeServiceModal()" class="text-earth-olive hover:text-earth-darkbrown transition-colors bg-white rounded-full p-2 shadow-sm border border-earth-base/20 focus:outline-none shrink-0">
